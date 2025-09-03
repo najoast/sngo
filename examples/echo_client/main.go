@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/sngo/sngo/network"
+	"github.com/najoast/sngo/network"
 )
 
 func main() {

@@ -1,0 +1,141 @@
+# SNGO Configuration Example
+# This is a comprehensive example configuration file for the SNGO framework
+
+# Application Configuration
+app:
+  name: "sngo-example-app"
+  version: "1.0.0"
+  environment: "development"  # development, testing, staging, production
+  debug: true
+  description: "Example SNGO application demonstrating configuration"
+  metadata:
+    author: "SNGO Team"
+    project: "sngo-framework"
+
+# Logging Configuration
+log:
+  level: "info"              # trace, debug, info, warn, error, fatal
+  format: "text"             # text, json
+  output: "stdout"           # stdout, stderr, or file path
+  color: true
+  rotation:
+    enabled: false
+    max_size: 100            # MB
+    max_backups: 3
+    max_age: 7               # days
+    compress: true
+  fields:
+    service: "sngo-app"
+    version: "1.0.0"
+
+# Network Configuration
+network:
+  tcp:
+    address: "0.0.0.0"
+    port: 8080
+    keep_alive: true
+    keep_alive_interval: "60s"
+    buffer_size: 4096
+  
+  udp:
+    address: "0.0.0.0"
+    port: 8081
+    buffer_size: 4096
+  
+  limits:
+    max_connections: 1000
+    max_connections_per_ip: 100
+    rate_limit: 100          # connections per second
+  
+  timeouts:
+    read: "30s"
+    write: "30s"
+    idle: "5m"
+    handshake: "10s"
+
+# Actor System Configuration
+actor:
+  max_actors: 10000
+  default_mailbox_size: 1000
+  timeouts:
+    creation: "5s"
+    shutdown: "10s"
+    message_send: "1s"
+    call: "30s"
+  routing:
+    strategy: "direct"       # direct, consistent_hash, round_robin
+    persistence: false
+    message_ttl: "5m"
+
+# Service Discovery Configuration
+discovery:
+  enabled: true
+  type: "local"              # local, consul, etcd, kubernetes
+  registration:
+    name: "sngo-service"
+    version: "1.0.0"
+    ttl: "30s"
+    tags:
+      - "api"
+      - "microservice"
+    metadata:
+      zone: "us-east-1"
+      datacenter: "dc1"
+  health_check:
+    enabled: true
+    interval: "10s"
+    timeout: "5s"
+    http_endpoint: "/health"
+  load_balancing:
+    strategy: "round_robin"  # round_robin, least_connections, weighted
+    health_check: true
+    circuit_breaker:
+      enabled: false
+      failure_threshold: 5
+      success_threshold: 3
+      timeout: "60s"
+
+# Monitoring Configuration
+monitor:
+  enabled: true
+  metrics_interval: "10s"
+  http:
+    enabled: true
+    address: "0.0.0.0"
+    port: 9090
+    metrics_path: "/metrics"
+    health_path: "/health"
+    pprof_enabled: false
+  profiling:
+    enabled: false
+    cpu: false
+    memory: false
+    block: false
+    mutex: false
+
+# Custom Application-Specific Configuration
+custom:
+  database:
+    driver: "postgres"
+    host: "localhost"
+    port: 5432
+    database: "sngo_app"
+    username: "sngo_user"
+    password: "secret"
+    pool_size: 10
+    
+  redis:
+    address: "localhost:6379"
+    password: ""
+    database: 0
+    pool_size: 10
+    
+  features:
+    enable_caching: true
+    enable_metrics: true
+    enable_tracing: false
+    
+  business_logic:
+    max_retries: 3
+    timeout: "30s"
+    batch_size: 100

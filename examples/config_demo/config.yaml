@@ -1,0 +1,21 @@
+app:
+  name: "demo-app"
+  version: "1.0.0"
+  environment: "development"
+  debug: true
+
+log:
+  level: "info"
+  format: "text"
+  output: "stdout"
+
+network:
+  tcp:
+    address: "127.0.0.1"
+    port: 9999
+  limits:
+    max_connections: 500
+
+actor:
+  max_actors: 5000
+  default_mailbox_size: 200
