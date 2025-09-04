@@ -48,17 +48,20 @@ SNGO 采用分层架构设计，从下到上分为：
 - **Event System**：生命周期事件广播
 - **Health Monitoring**：服务健康状态监控
 
-### 5. 集群层 (cluster/) 🔄
+### 5. 集群层 (cluster/) ✅
 
-- **Node**：集群节点管理
-- **Discovery**：跨节点服务发现
-- **RPC**：跨节点远程调用
+- **Node Management**：集群节点管理和状态同步
+- **Message Transport**：跨节点消息传输和路由
+- **Remote Service**：跨节点服务调用和代理
+- **Service Registry**：分布式服务注册发现
+- **Health Monitoring**：集群健康监控和故障检测
+- **Bootstrap Integration**：与应用框架无缝集成
 
-### 6. 工具层 (tools/) 🔄
+### 6. 工具层 (tools/) �
 
-- **CLI**：命令行工具
-- **Monitoring**：监控和调试工具
-- **Profiling**：性能分析工具
+- **CLI**：命令行工具（规划中）
+- **Monitoring**：监控和调试工具（规划中）
+- **Profiling**：性能分析工具（规划中）
 
 ## 设计原则
 
@@ -186,18 +189,10 @@ Container    Topological Sort      Service.Start()  Periodic    Normal    Servic
 - ✅ **Stage 4-5**: Network Layer & Service Discovery (完成)
 - ✅ **Stage 6**: Configuration System (完成)
 - ✅ **Stage 7**: Bootstrap & Lifecycle Management (完成)
-- 🔄 **Stage 8**: Integration Testing & Tools (进行中)
-
-## 性能特性
-
-- **高并发**：基于 goroutine 的轻量级并发模型
-- **低延迟**：零拷贝网络通信和高效消息路由
-- **高吞吐**：批量处理和连接池优化
-- **内存友好**：对象池和作用域管理减少 GC 压力
-- **可扩展**：模块化设计支持水平扩展
+- ✅ **Stage 8**: Cluster Support (完成)
 
 ---
 
-*文档版本：v0.7.0*
+*文档版本：v1.0.0*
 *更新时间：2025-09-04*
-*项目完成度：87.5% (7/8 阶段)*
+*项目完成度：100% (8/8 阶段)*
