@@ -1,4 +1,4 @@
-package simpledb
+package main
 
 import (
 	"context"
@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/najoast/sngo/core"
+	"github.com/najoast/sngo/examples/simpledb"
 )
 
 // TestClient tests the SimpleDB service
@@ -37,7 +38,7 @@ func testSimpleDB(system core.ActorSystem) {
 	log.Printf("Found SimpleDB service: %v", dbHandle)
 
 	// Test SET command
-	setReq := DBRequest{
+	setReq := simpledb.DBRequest{
 		Command: "SET",
 		Args:    []interface{}{"test_key", "test_value"},
 	}
@@ -53,7 +54,7 @@ func testSimpleDB(system core.ActorSystem) {
 	time.Sleep(100 * time.Millisecond)
 
 	// Test GET command
-	getReq := DBRequest{
+	getReq := simpledb.DBRequest{
 		Command: "GET",
 		Args:    []interface{}{"test_key"},
 	}
@@ -69,7 +70,7 @@ func testSimpleDB(system core.ActorSystem) {
 	time.Sleep(100 * time.Millisecond)
 
 	// Test PING command
-	pingReq := DBRequest{
+	pingReq := simpledb.DBRequest{
 		Command: "PING",
 		Args:    []interface{}{"hello"},
 	}
@@ -85,7 +86,7 @@ func testSimpleDB(system core.ActorSystem) {
 	time.Sleep(100 * time.Millisecond)
 
 	// Test KEYS command
-	keysReq := DBRequest{
+	keysReq := simpledb.DBRequest{
 		Command: "KEYS",
 		Args:    []interface{}{"*"},
 	}
@@ -101,7 +102,7 @@ func testSimpleDB(system core.ActorSystem) {
 	time.Sleep(100 * time.Millisecond)
 
 	// Test SIZE command
-	sizeReq := DBRequest{
+	sizeReq := simpledb.DBRequest{
 		Command: "SIZE",
 	}
 	sizeData, _ := json.Marshal(sizeReq)
@@ -125,7 +126,7 @@ func runTest() {
 	system := core.NewActorSystem()
 
 	// Create SimpleDB service directly
-	db := NewSimpleDB()
+	db := simpledb.NewSimpleDB()
 	handle, err := system.NewService("SIMPLEDB", db, core.DefaultActorOptions())
 	if err != nil {
 		log.Fatalf("Failed to create SimpleDB service: %v", err)

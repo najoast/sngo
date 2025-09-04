@@ -1,18 +1,15 @@
-package main
+package simpledb
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 	"strings"
 
 	"github.com/najoast/sngo/bootstrap"
 	"github.com/najoast/sngo/core"
-)
-
-// SimpleDB implements a simple in-memory key-value database
+) // SimpleDB implements a simple in-memory key-value database
 // 注意：Actor模式中，每个Actor内部是串行处理消息的，不需要锁！
 type SimpleDB struct {
 	data map[string]string
@@ -255,10 +252,9 @@ func (s *SimpleDBService) Name() string {
 }
 
 func (s *SimpleDBService) Start(ctx context.Context) error {
-	// Get actor system from context or container
-	if s.system == nil {
-		return fmt.Errorf("actor system not available")
-	}
+	// ActorSystem会由bootstrap自动注册，但我们无法在这里访问container
+	// 暂时创建一个本地的ActorSystem用于测试
+	s.system = core.NewActorSystem()
 
 	// Create service actor
 	handle, err := s.system.NewService("SIMPLEDB", s.db, core.DefaultActorOptions())
@@ -295,38 +291,7 @@ func (s *SimpleDBService) Health(ctx context.Context) (bootstrap.HealthStatus, e
 	}, nil
 }
 
-// SetActorSystem sets the actor system for this service
-func (s *SimpleDBService) SetActorSystem(system core.ActorSystem) {
-	s.system = system
-}
-
 // GetHandle returns the actor handle
 func (s *SimpleDBService) GetHandle() *core.Handle {
 	return s.handle
-}
-
-func main() {
-	// Check if we're running in test mode
-	if len(os.Args) > 1 && os.Args[1] == "test" {
-		runTest()
-		return
-	}
-
-	// Create application
-	app := bootstrap.NewApplication()
-
-	// Create SimpleDB service
-	dbService := NewSimpleDBService()
-
-	// Register the service
-	lifecycleManager := app.LifecycleManager()
-	if err := lifecycleManager.Register("simpledb", dbService); err != nil {
-		log.Fatalf("Failed to register SimpleDB service: %v", err)
-	}
-
-	// Start application
-	ctx := context.Background()
-	if err := app.Run(ctx); err != nil {
-		log.Fatalf("Application failed: %v", err)
-	}
 }
